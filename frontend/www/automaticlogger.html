@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatic logging</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <script src="https://kit.fontawesome.com/0ce6c392ca.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="scripts/navbar.js" type="text/javascript" defer></script>
+</head>
+<body>
+    <navbar-el></navbar-el>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg text-center">
+                <h3 class="mt-5">Pick fitness center</h3>
+                <p>Pick the fitness center where the exercise equipement that you want to automatically log is located.</p>
+        </div>
+        <div class="row">
+            <div class="col-lg text-center">
+                <div class="list-group mt-1" id="div-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sit-gloes">
+        <a class="list-group-item list-group-item-action flex-column align-items-start my-1" href="">
+            <div class="d-flex w-100 justify-content-between align-items-center">
+                <h5 class="mb1">Sit Gløshaugen idrettsbygg</h5>
+            </div>
+            <div class="d-flex">
+                <p class="mb-1">Chr. Fredriks gate 20, 7030 Trondheim</p>
+            </div>
+        </a>
+    </div>
+    <div id="three-t-midtbyen">
+        <a class="list-group-item list-group-item-action flex-column align-items-start my-1" href="">
+            <div class="d-flex w-100 justify-content-between align-items-center">
+                <h5 class="mb1">3T-Midtby'n</h5>
+            </div>
+            <div class="d-flex">
+                <p class="mb-1">Dronningens gate 1, 7011 Trondheim</p>
+            </div>
+        </a>
+    </div>
+    <div id="impulse">
+        <a class="list-group-item list-group-item-action flex-column align-items-start my-1" href="">
+            <div class="d-flex w-100 justify-content-between align-items-center">
+                <h5 class="mb1">Impulse Treningssenter</h5>
+            </div>
+            <div class="d-flex">
+                <p class="mb-1">Kongens gate 49, 7012</p>
+            </div>
+        </a>
+    </div>
+
+    <script src="scripts/defaults.js"></script>
+    <script src="scripts/scripts.js"></script>
+    <script src="scripts/automaticlogger.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</body>
+</html>
