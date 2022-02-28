@@ -1,3 +1,23 @@
+// Functions for handling on fitness selection
+function onSit() {
+    document.getElementById("sit-exercise-equipment").classList.remove("hide")
+    document.getElementById("three-t-midtbyen-exercise-equipment").classList.add("hide")
+    document.getElementById("impulse-exercise-equipment").classList.add("hide")
+}
+
+function onThreeT() {
+    document.getElementById("sit-exercise-equipment").classList.add("hide")
+    document.getElementById("three-t-midtbyen-exercise-equipment").classList.remove("hide")
+    document.getElementById("impulse-exercise-equipment").classList.add("hide")
+}
+
+function onImpulse() {
+    document.getElementById("sit-exercise-equipment").classList.add("hide")
+    document.getElementById("three-t-midtbyen-exercise-equipment").classList.add("hide")
+    document.getElementById("impulse-exercise-equipment").classList.remove("hide")
+}
+
+// Functions for handling on fitness selection
 async function onSitWideGripBenchPress() {
     let body = {
         "fitnessCenter": "Sit Sit Gløshaugen idrettsbygg",
@@ -12,14 +32,14 @@ async function onSitWideGripBenchPress() {
     }
 }
 
-function onSitShortGripBenchPress() {
+async function onSitShortGripBenchPress() {
     
 }
 
-function onSitWideStance() {
+async function onSitWideStance() {
     
 }
 
-function onSitNarrowStance() {
+async function onSitNarrowStance() {
 
 }
