@@ -21,7 +21,24 @@
                 <input type="button" class="btn btn-primary" id="btn-add-logger" value="Add automatic logger">
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg text-center">
+                <div class="list-group mt-1" id="div-content"></div>
+            </div>
+        </div>
     </div>
+
+    <template id="template-logger">
+        <a class="list-group-item list-group-item-action flex-column align-items-start my-1 logger" href="">
+            <div class="d-flex w-100 justify-content-between align-items-center">
+                <h5 class="mb-1"></h5>
+            </div>
+            <div class="d-flex">
+                <p class="mb-1">
+                </p>
+            </div>
+        </a>
+    </template>
 
     <script src="scripts/defaults.js"></script>
     <script src="scripts/scripts.js"></script>
