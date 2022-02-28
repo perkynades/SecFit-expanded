@@ -28,7 +28,8 @@ RUN pip install -r requirements.txt
 ENV GROUPID=${GROUPID}
 
 # Initialize Django
-RUN python manage.py migrate
+RUN python manage.py makemigrations
+RUN python manage.py migrate --run-syncdb
 
 # Import credential variables
 ARG DJANGO_SUPERUSER_USERNAME

@@ -15,7 +15,6 @@ import os
 from .djangoHeroku import settings
 
 
-
 # Get the GROUPID variable to accept connections from the application server and NGINX
 groupid = os.environ.get("GROUPID", "0")
 
@@ -59,6 +58,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "workouts.apps.WorkoutsConfig",
+    "exerciseLoggers.apps.ExerciseLoggersConfig",
     "meals.apps.MealsConfig",
     "users.apps.UsersConfig",
     "comments.apps.CommentsConfig",

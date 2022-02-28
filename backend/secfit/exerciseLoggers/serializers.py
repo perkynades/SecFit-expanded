@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.serializers import HyperlinkedRelatedField
-from logging.models import ExerciseLogger
+from exerciseLoggers.models import ExerciseLogger
 
 class ExerciseLoggerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

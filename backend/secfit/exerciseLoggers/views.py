@@ -8,15 +8,15 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from django.db.models import Q
 from rest_framework import filters
-from logging.parsers import MutlipartJsonparse
-from logging.permissions import (
+from exerciseLoggers.parsers import MutlipartJsonparse
+from exerciseLoggers.permissions import (
     Isowner,
     IsOwnerOfExerciseLogger,
     IsReadOnly
 )
-from logging.mixins import CreateListModelMixin
-from logging.models import ExerciseLogger
-from logging.serializers import ExerciseLoggerSerializer
+from exerciseLoggers.mixins import CreateListModelMixin
+from exerciseLoggers.models import ExerciseLogger
+from exerciseLoggers.serializers import ExerciseLoggerSerializer
 from django.core.exceptions import PermissionDenied
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -30,12 +30,12 @@ def api_root(request, format=None):
     return Response(
         {
             "users": reverse("user-list", request=request, format=format),
-            "exercise-loggers": reverse("exercise-logger-list", request=request, format=format)
+            "exercise-loggers": reverse("exerciselogger-list", request=request, format=format)
         }
     )
 
 class ExerciseLoggerList(
-    mixins.ListmodelMixin, mixins.CreateModelMixin, generics.GenericAPIView
+    mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView
 ):
     serializer_class = ExerciseLoggerSerializer
     permission_class = [
@@ -76,7 +76,7 @@ class ExerciseLoggerDetail(
         permissions.IsAuthenticated
         & Isowner
     ]
-    parser_classes = [MultipartJsonParser, JSONParser]
+    parser_classes = [MutlipartJsonparse, JSONParser]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

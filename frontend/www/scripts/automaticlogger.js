@@ -3,10 +3,10 @@ async function onSitWideGripBenchPress() {
         "fitnessCenter": "Sit Sit Gløshaugen idrettsbygg",
         "loggedExercise": "Wide grip bench press"
     }
-    let response = await sendRequest("POST", `${HOST}/api/logger/`, body)
+    let response = await sendRequest("POST", `${HOST}/api/exerciseLoggers/`, body)
 
     if (response.ok) {
-        window.location.replace("automaticlogger.html")
+        window.location.replace("automaticloggers.html")
     } else {
         console.log("not ok")
     }

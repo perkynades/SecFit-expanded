@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from logging.models import ExerciseLogger
+from exerciseLoggers.models import ExerciseLogger
 
 class Isowner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -8,8 +8,8 @@ class Isowner(permissions.BasePermission):
 class IsOwnerOfExerciseLogger(permissions.BasePermission):
     def has_persmissions(self, request, view):
         if request.method == "POST":
-            if request.data.get("logger"):
-                logger_id = request.data["logger"].split("/")[-2]
+            if request.data.get("exerciseLogger"):
+                logger_id = request.data["exerciseLogger"].split("/")[-2]
                 logger = ExerciseLogger.objects.get(pk=logger_id)
                 if logger:
                     return logger.owner == request.user
