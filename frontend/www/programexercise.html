@@ -12,7 +12,152 @@
 </head>
 <body>
     <navbar-el></navbar-el>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg text-center">
+                <h3 class="mt-5">Pick fitness center</h3>
+        </div>
+        <div class="row">
+            <div class="col-lg text-center">
+                <div class="list-group mt-1" id="div-content"></div>
+            </div>
+        </div>
+    </div>
+    <div id="three-t-midtbyen">
+        <div class="list-group-item list-group-item-action flex-column align-items-start my-1" onclick="onThreeTMidtbyen()">
+            <div class="d-flex w-100 justify-content-between align-items-center">
+                <h5 class="mb1">3T-Midtby'n</h5>
+            </div>
+            <div class="d-flex">
+                <p class="mb-1">Dronningens gate 1, 7011 Trondheim</p>
+            </div>
+        </div>
+    </div>
+    <div id="impulse">
+        <div class="list-group-item list-group-item-action flex-column align-items-start my-1" onclick="onImpulse()">
+            <div class="d-flex w-100 justify-content-between align-items-center">
+                <h5 class="mb1">Impulse Treningssenter</h5>
+            </div>
+            <div class="d-flex">
+                <p class="mb-1">Kongens gate 49, 7012</p>
+            </div>
+        </div>
+    </div>
 
+     <div class="hide" id="three-t-midtbyen-exercise-equipment">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg text-center">
+                    <h3 class="mt-5">Pick exercise equipment</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg text-center">
+                    <div class="list-group mt-1" id="div-content">3T-Midtby'n</div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="list-group-item list-group-item-action flex-column align-items-start my-1">
+                <div class="d-flex w-100 justify-content-between align-items-center" onclick="onThreeTRunningMachine()">
+                    <h5 class="mb1">Running machine</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container hide" id="three-t-program-exercise-div">
+        <div class="row">
+            <div class="col-lg text-center">
+                <h5 class="mt-3">Create program</h3>
+            </div>
+        </div>
+        <form class="row g-3" id="three-t-running-machine-program-exercise-form">
+            <div class="col-lg-6">
+                <label for="inputTerrain" class="form-label">Choose terrain</label>
+                <select class="form-select" name="terrainGroup">
+                    <option value="Plains">Plains</option>
+                    <option value="Mountains">Mountains</option>
+                    <option value="Hills">Hills</option>
+                    <option value="City">City</option>
+                </select>
+            </div>
+            <div class="col-lg-6"></div>
+            <div class="col-lg-6 ">
+                <label for="inputName" class="form-label">Length of run</label>
+                <input type="number" class="form-control" id="inputLength" name="length">
+            </div>
+            <div class="col-lg-6"></div>
+            <div class="col-lg-6 ">
+                <label for="inputName" class="form-label">Speed of run (km/h)</label>
+                <input type="number" class="form-control" id="inputSpeed" name="speed">
+            </div>
+            <div class="col-lg-6"></div>
+            <div class="col-lg-6">
+                <input type="button" class="btn btn-primary" value="  OK  " onclick="onThreeTCreateExercise()">
+            </div>
+            <div class="col-lg-6">
+        </form>
+    </div>
+
+    <div class="hide" id="impulse-exercise-equipment">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg text-center">
+                    <h3 class="mt-5">Pick exercise equipment</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg text-center">
+                    <div class="list-group mt-1" id="div-content">Impulse Treningssenter</div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="list-group-item list-group-item-action flex-column align-items-start my-1">
+                <div class="d-flex w-100 justify-content-between align-items-center" onclick="onImpulseRunningMachine()">
+                    <h5 class="mb1">Running machine</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container hide" id="impulse-program-exercise-div">
+        <div class="row">
+            <div class="col-lg text-center">
+                <h5 class="mt-3">Create program</h3>
+            </div>
+        </div>
+        <form class="row g-3" id="impulse-running-machine-program-exercise-form">
+            <div class="col-lg-6">
+                <label for="inputTerrain" class="form-label">Choose terrain</label>
+                <select class="form-select" name="terrainGroup">
+                    <option value="Plains">Plains</option>
+                    <option value="Mountains">Mountains</option>
+                    <option value="Hills">Hills</option>
+                    <option value="City">City</option>
+                </select>
+            </div>
+            <div class="col-lg-6"></div>
+            <div class="col-lg-6 ">
+                <label for="inputName" class="form-label">Length of run</label>
+                <input type="number" class="form-control" id="inputLength" name="length">
+            </div>
+            <div class="col-lg-6"></div>
+            <div class="col-lg-6 ">
+                <label for="inputName" class="form-label">Speed of run (km/h)</label>
+                <input type="number" class="form-control" id="inputSpeed" name="speed">
+            </div>
+            <div class="col-lg-6"></div>
+            <div class="col-lg-6">
+                <input type="button" class="btn btn-primary" value="  OK  " onclick="onThreeTCreateExercise()">
+            </div>
+            <div class="col-lg-6">
+        </form>
+    </div>
 
     <script src="scripts/defaults.js"></script>
     <script src="scripts/scripts.js"></script>
