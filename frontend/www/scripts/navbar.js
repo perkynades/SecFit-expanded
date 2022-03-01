@@ -20,6 +20,7 @@ class NavBar extends HTMLElement {
                 <a class="nav-link" id="nav-myathletes" href="myathletes.html">Athletes</a>
                 <a class="nav-link" id="nav-meals" href="meals.html">Meal registration</a>
                 <a class="nav-link" id="nav-automaticlogging" href="automaticloggers.html">Automatic logging</a>
+                <a class="nav-link" id "nav-exerciseprogramming" href="exerciseprogramming.html">Exercise programming</a>
                 <hr>
             </div>
             <div class="my-2 my-lg-0 me-5">
