@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "workouts.apps.WorkoutsConfig",
     "exerciseLoggers.apps.ExerciseLoggersConfig",
+    "programmedExercises.apps.ProgrammedExercisesConfig",
     "meals.apps.MealsConfig",
     "users.apps.UsersConfig",
     "comments.apps.CommentsConfig",

@@ -9,7 +9,7 @@ class ProgrammedExercise(models.Model):
     length = models.IntegerField()
     speed = models.IntegerField()
     owner = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, related_name="programmedExercise"
+        get_user_model(), on_delete=models.CASCADE, related_name="programmedExercises"
     )
 
     def __str__(self):

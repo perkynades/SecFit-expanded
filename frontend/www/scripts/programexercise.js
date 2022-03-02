@@ -16,7 +16,7 @@ async function onThreeTCreateExercise() {
         "speed": Number(formData.get("speed"))
     }
     
-    let response = await sendRequest("POST", `${HOST}/api/`)
+    let response = await sendRequest("POST", `${HOST}/api/programmedExercises/`, body)
 
     if (response.ok) {
         window.location.replace("exerciseprogramming.html");
