@@ -1,19 +1,9 @@
 function onThreeTMidtbyen() {
     document.getElementById("three-t-midtbyen-exercise-equipment").classList.remove("hide")
-    //document.getElementById("three-t-program-exercise-div").classList.remove("hide")
-}
-
-function onImpulse() {
-    document.getElementById("impulse-exercise-equipment").classList.remove("hide")
-    //document.getElementById("impulse-program-exercise-div").classList.remove("hide")
 }
 
 function onThreeTRunningMachine() {
     document.getElementById("three-t-program-exercise-div").classList.remove("hide")
-}
-
-function onImpulseRunningMachine() {
-    document.getElementById("impulse-program-exercise-div").classList.remove("hide")
 }
 
 async function onThreeTCreateExercise() {
