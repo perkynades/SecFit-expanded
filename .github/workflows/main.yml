@@ -17,4 +17,4 @@ jobs:
         run: apt-get update -qy
       - name: Install python reqs
         run: pip install -r requirments.txt
-      working-directory: ./backend/secfit
+        working-directory: ./backend/secfit
