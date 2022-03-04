@@ -25,11 +25,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: '2.6'
       - run: |
           sudo apt-get upgrade -qy
+        working-directory: ./backend/secfit
+      - run: pip install -r requirements.txt
+      - run: |
           sudo apt-get install -y ruby-dev
           gem install dpl
           dpl --provider=heroku --app=secfit-expanded-frontend --api-key=${{ secrets.HEROKU_STAGING_API_KEY }}
