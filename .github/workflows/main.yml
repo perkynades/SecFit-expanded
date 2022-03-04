@@ -18,3 +18,19 @@ jobs:
       - name: Install python reqs
         run: pip install -r requirements.txt
         working-directory: ./backend/secfit
+  
+  deploy:
+    name: Deploy to heroku
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+      - run: |
+          sudo apt-get upgrade -qy
+          sudo apt-get install -y ruby-dev
+          gem install dpl
+          dpl --provider=heroku --app=secfit-expanded-frontend --api-key=${{ secrets.HEROKU_STAGING_API_KEY }}
+          dpl --provider=heroku --app=secfit-expanded-backend --api-key=${{ secrets.HEROKU_STAGING_API_KEY }}
