@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Install python
+        name: Install python
       - uses: actions/setup-python@v2
-      - name: python
         with:
           python-version: '3.8'
+        name: Run steps
         run: |
           apt-get update -qy
           pip install -r requirments.txt
