@@ -1,0 +1,20 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  install_reqs:
+    name: Install python requirments
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install python
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+        run: |
+          apt-get update -qy
+          pip install -r requirments.txt
+        working-directory: ./backend/secfit
