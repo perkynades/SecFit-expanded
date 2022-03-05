@@ -117,7 +117,7 @@ class IsCoachOfWorkoutAndVisibleToCoachTestSuite(TestCase):
             unit="reps"
         )
         exercise_instance = ExerciseInstance.objects.create(
-            workout=self.workout, 
+            workout=workout, 
             exercise=exercise, 
             sets=3,
             number=12
