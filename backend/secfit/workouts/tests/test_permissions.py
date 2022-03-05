@@ -111,4 +111,16 @@ class IsCoachOfWorkoutAndVisibleToCoachTestSuite(TestCase):
             visibility="PU"
         )
 
-        self.assertTrue(IsCoachOfWorkoutAndVisibleToCoach().has_object_permission(request, None, workout))
+        exercise = Exercise.objects.create(
+            name="Biceps curl", 
+            description="just curl the biceps", 
+            unit="reps"
+        )
+        exercise_instance = ExerciseInstance.objects.create(
+            workout=self.workout, 
+            exercise=exercise, 
+            sets=3,
+            number=12
+        )
+
+        self.assertTrue(IsCoachOfWorkoutAndVisibleToCoach().has_object_permission(request, None, exercise_instance))
