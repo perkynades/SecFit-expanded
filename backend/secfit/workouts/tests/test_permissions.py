@@ -8,19 +8,67 @@ import json
 
 class IsOwnerTestSuite(TestCase):
     def setUp(self):
-        self.user1 = User.objects.create(username="ultimate_br0")
-        self.user2 = User.objects.create(username="gigachad40", coach=self.user1)
-    
-    def test_user_should_be_owner(self):
-        request = RequestFactory().get('/')
-        request.user = self.user1
-
-        workout = Workout.objects.create(
+        self.user = User.objects.create(username="ultimate_br0")
+        self.workout = Workout.objects.create(
             name="biceps-blaster", 
             date="2022-03-07T00:00:00Z", 
             notes="Cruched it brah",
-            owner=self.user1,
+            owner=self.user,
             visibility="PU"
         )
 
-        self.assertTrue(IsOwner().has_object_permission(request, None, workout))
+    def test_user_should_be_owner(self):
+        request = RequestFactory().get('/')
+        request.user = self.user
+
+        self.assertTrue(IsOwner().has_object_permission(request, None, self.workout))
+
+class IsOwnerOfWorkoutTestSuite(TestCase):
+    def setUp(self):
+        self.user = User.objects.create(username="ultimate_br0")
+        self.workout = Workout.objects.create(
+            name="biceps-blaster", 
+            date="2022-03-07T00:00:00Z", 
+            notes="Cruched it brah",
+            owner=self.user,
+            visibility="PU"
+        )
+    
+    def test_user_should_be_owner_of_workout(self):
+        request = RequestFactory().get('/')
+        request.user = self.user
+
+        exercise = Exercise.objects.create(
+            name="Biceps curl", 
+            description="just curl the biceps", 
+            unit="reps"
+        )
+        exercise_instance = ExerciseInstance.objects.create(
+            workout=self.workout, 
+            exercise=exercise, 
+            sets=3,
+            number=12
+        )
+        
+        self.assertTrue(IsOwnerOfWorkout().has_object_permission(request, None, exercise_instance))
+    
+    def test_on_get_user_should_be_owner_of_workout(self):
+        request = RequestFactory().get('/')
+        request.user = self.user
+        request.data = { 'workout' : '/api/workouts/1/' }
+
+        self.assertTrue(IsOwnerOfWorkout().has_object_permission(request, None))
+    
+    def test_on_post_user_should_be_owner_of_workout(self):
+        request = RequestFactory().post('/')
+        request.user = self.user
+        request.data = { 'workout': '/api/workouts/1/' }
+
+        self.assertTrue(IsOwnerOfWorkout().has_object_permission(request, None))
+    
+    def test_user_should_not_have_permission_to_post_empty_workout(self):
+        request = RequestFactory().post('/')
+        request.user = self.user
+        request.data = { 'workout': None }
+
+        self.assertFalse(IsOwnerOfWorkout().has_object_permission(request, None))
