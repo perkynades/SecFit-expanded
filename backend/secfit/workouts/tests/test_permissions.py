@@ -124,3 +124,23 @@ class IsCoachOfWorkoutAndVisibleToCoachTestSuite(TestCase):
         )
 
         self.assertTrue(IsCoachOfWorkoutAndVisibleToCoach().has_object_permission(request, None, exercise_instance))
+
+class IsPublicTestSuite(TestCase):
+    def setUp(self):
+        self.user = User.objects.create(username="ultimate_br0")
+    
+    def test_workout_should_be_public(self):
+        request = RequestFactory('/').get()
+        request.user = self.user
+
+        other_user = User.objects.create(username="gigachad420", coach=self.user)
+
+        workout = Workout.objects.create(
+            name="biceps-blaster", 
+            date="2022-03-07T00:00:00Z", 
+            notes="Cruched it brah",
+            owner=other_user,
+            visibility="PU"
+        )
+
+        self.assertTrue(IsPublic().has_object_permission(request, None, workout))
