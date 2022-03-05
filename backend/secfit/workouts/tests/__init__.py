@@ -1,0 +1,1 @@
+from workouts.tests.test_permissions import *
