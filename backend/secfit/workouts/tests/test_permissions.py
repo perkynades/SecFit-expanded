@@ -50,7 +50,7 @@ class IsOwnerOfWorkoutTestSuite(TestCase):
             number=12
         )
         
-        self.assertTrue(IsOwnerOfWorkout().has_permission(request, None, exercise_instance))
+        self.assertTrue(IsOwnerOfWorkout().has_object_permission(request, None, exercise_instance))
     
     def test_on_get_user_should_be_owner_of_workout(self):
         request = RequestFactory().get('/')
