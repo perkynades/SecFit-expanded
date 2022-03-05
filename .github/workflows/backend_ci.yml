@@ -33,6 +33,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
         working-directory: ./backend/secfit
+      - name: Make migrations
+        run: |
+          python manage.py makemigrations
+          python manage.py migrate --run-syncdb
+        working-directory: ./backend/secfit
       - name: Run tests
         env:
           POSTGRES_DB: 'test-db'
