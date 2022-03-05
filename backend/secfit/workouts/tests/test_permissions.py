@@ -130,7 +130,7 @@ class IsPublicTestSuite(TestCase):
         self.user = User.objects.create(username="ultimate_br0")
     
     def test_workout_should_be_public(self):
-        request = RequestFactory('/').get()
+        request = RequestFactory().get('/')
         request.user = self.user
 
         other_user = User.objects.create(username="gigachad420", coach=self.user)
