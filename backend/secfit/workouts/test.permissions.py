@@ -6,7 +6,7 @@ from users.models import User
 import json
 
 
-class IsOwnerTestSuite():
+class IsOwnerTestSuite(TestCase):
     def setUp(self):
         self.user1 = User.objects.create(username="ultimate_br0")
         self.user2 = User.objects.create(username="gigachad40", coach=self.user1)
