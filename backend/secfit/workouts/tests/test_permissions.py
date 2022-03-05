@@ -72,3 +72,27 @@ class IsOwnerOfWorkoutTestSuite(TestCase):
         request.data = { 'workout': None }
 
         self.assertFalse(IsOwnerOfWorkout().has_permission(request, None))
+
+class IsCoachAndVisibleToCoachTestSuite(TestCase):
+    def setUp(self):
+        self.coach_user = User.objects.create(username="ultimate_br0")
+    
+    def test_user_should_be_coach_and_visible_to_a_coach(self):
+        request = RequestFactory().get('/')
+        request.user = self.coach_user
+
+        user = User.objects.create(username="gigachad420", coach=self.coach_user)
+
+        workout = Workout.objects.create(
+            name="biceps-blaster", 
+            date="2022-03-07T00:00:00Z", 
+            notes="Cruched it brah",
+            owner=user,
+            visibility="PU"
+        )
+
+        self.assertTrue(IsCoachAndVisibleToCoach().has_object_permission(request, None, workout))
+
+
+
+        
