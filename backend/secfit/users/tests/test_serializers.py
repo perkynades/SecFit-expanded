@@ -19,7 +19,7 @@ class UserSerializerTestSuite(TestCase):
     def test_users_pasword_should_not_be_valid(self):
         user_serializer = UserSerializer(data = { 
             'password': self.password,
-            'password1': 'NotevenremotlyCl0seToOrigPass'
+            'password1': 'nomatch'
         })
 
         self.assertRaises(
