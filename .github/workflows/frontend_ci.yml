@@ -10,10 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: boreales/actions-yarn@v2.3.0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
       - name: Install deps
-        run: yarn install
+        run: npm install
         working-directory: ./frontend
       - name: Test
-        run: yarn test
+        run: npm run test
         working-directory: ./frontend
