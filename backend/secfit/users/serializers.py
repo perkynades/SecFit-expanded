@@ -34,6 +34,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         password = data.get("password")
         password1 = data.get("password1")
 
+        if password != password1:
+            raise serializers.ValidationError('Passwords does not match')
+
         try:
             password_validation.validate_password(password)
         except forms.ValidationError as error:
