@@ -1,0 +1,19 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: Test frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: boreales/actions-yarn@v2.3.0
+      - name: Install deps
+        run: yarn install
+        working-directory: ./frontend
+      - name: Test
+        run: yarn test
+        working-directory: ./frontend
