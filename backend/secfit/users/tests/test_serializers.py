@@ -41,12 +41,12 @@ class UserSerializerTestSuite(TestCase):
 
         user_serializer = UserSerializer(data=user_data)
 
-        user = user_serializer.create(values) 
-        self.assertEqual(user.username, values['username'])
-        self.assertEqual(user.email, values['email'])
-        self.assertEqual(user.phone_number, values['phone_number'])
-        self.assertEqual(user.country, values['country'])
-        self.assertEqual(user.city, values['city'])
-        self.assertEqual(user.street_address, values['street_address'])
+        user = user_serializer.create(user_data) 
+        self.assertEqual(user.username, user_data['username'])
+        self.assertEqual(user.email, user_data['email'])
+        self.assertEqual(user.phone_number, user_data['phone_number'])
+        self.assertEqual(user.country, user_data['country'])
+        self.assertEqual(user.city, user_data['city'])
+        self.assertEqual(user.street_address, user_data['street_address'])
 
 
