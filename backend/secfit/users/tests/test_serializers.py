@@ -15,3 +15,15 @@ class UserSerializerTestSuite(TestCase):
         })
 
         self.assertEqual(user_serializer.validate_password(self.password), self.password)
+    
+    def test_users_pasword_should_not_be_valid(self):
+        user_serializer = UserSerializer(data = { 
+            'password': self.password,
+            'password1': 'NotevenremotlyCl0seToOrigPass'
+        })
+
+        self.assertRaises(
+            serializers.ValidationError, 
+            user_serializer.validate_password, 
+            self.password
+        )
