@@ -176,3 +176,23 @@ class IsWorkoutPublicTestSuite(TestCase):
         )
 
         self.assertTrue(IsWorkoutPublic().has_object_permission(request, None, exercise_instance))
+
+class IsReadOnlyTestSuite(TestCase):
+    def setUp(self):
+        self.coach_user = User.objects.create(username="ultimate_br0")
+
+    def test_workout_should_be_read_only(self):
+        request = RequestFactory().get('/')
+        request.user = self.coach_user
+
+        user = User.objects.create(username="gigachad420", coach=self.coach_user)
+
+        workout = Workout.objects.create(
+            name="biceps-blaster", 
+            date="2022-03-07T00:00:00Z", 
+            notes="Cruched it brah",
+            owner=user,
+            visibility="PU"
+        )
+
+        self.assertTrue(IsReadOnly().has_object_permission(request, None, workout))
