@@ -27,3 +27,26 @@ class UserSerializerTestSuite(TestCase):
             user_serializer.validate_password, 
             self.password
         )
+    
+    def test_a_user_should_be_able_to_be_created(self):
+        user_data = {
+            'email': 'chad@progym.se',
+            'username': 'gigachad420',
+            'password': self.password,
+            'phone_number': 123456789,
+            'country': 'Sweden',
+            'city': 'Stockholm',
+            'street_address': 'Arlanda 43'
+        }
+
+        user_serializer = UserSerializer(data=user_data)
+
+        user = user_serializer.create(values) 
+        self.assertEqual(user.username, values['username'])
+        self.assertEqual(user.email, values['email'])
+        self.assertEqual(user.phone_number, values['phone_number'])
+        self.assertEqual(user.country, values['country'])
+        self.assertEqual(user.city, values['city'])
+        self.assertEqual(user.street_address, values['street_address'])
+
+
