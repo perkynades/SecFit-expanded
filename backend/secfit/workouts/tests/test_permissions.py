@@ -175,4 +175,4 @@ class IsWorkoutPublicTestSuite(TestCase):
             number=12
         )
 
-        self.assertTrue(IsWorkoutPublic().has_object_permission(request, None, workout))
+        self.assertTrue(IsWorkoutPublic().has_object_permission(request, None, exercise_instance))
