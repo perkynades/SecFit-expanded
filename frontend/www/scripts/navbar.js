@@ -14,13 +14,13 @@ class NavBar extends HTMLElement {
             <div class="collapse navbar-collapse ms-1" id="navbarNavAltMarkup">
             <div class="navbar-nav me-auto">
                 <a class="nav-link" id="nav-index" href="index.html">Home</a>
-                <a class="nav-link" id="nav-workouts" href="workouts.html">Workouts</a>
-                <a class="nav-link" id="nav-exercises" href="exercises.html">Exercises</a>
-                <a class="nav-link" id="nav-mycoach" href="mycoach.html">Coach</a>
-                <a class="nav-link" id="nav-myathletes" href="myathletes.html">Athletes</a>
-                <a class="nav-link" id="nav-meals" href="meals.html">Meal registration</a>
-                <a class="nav-link" id="nav-automaticlogging" href="automaticloggers.html">Automatic logging</a>
-                <a class="nav-link" id "nav-exerciseprogramming" href="exerciseprogramming.html">Exercise programming</a>
+                <a class="nav-link hide" id="nav-workouts" href="workouts.html">Workouts</a>
+                <a class="nav-link hide" id="nav-exercises" href="exercises.html">Exercises</a>
+                <a class="nav-link hide" id="nav-mycoach" href="mycoach.html">Coach</a>
+                <a class="nav-link hide" id="nav-myathletes" href="myathletes.html">Athletes</a>
+                <a class="nav-link hide" id="nav-meals" href="meals.html">Meal registration</a>
+                <a class="nav-link hide" id="nav-automaticlogging" href="automaticloggers.html">Automatic logging</a>
+                <a class="nav-link hide" id "nav-exerciseprogramming" href="exerciseprogramming.html">Exercise programming</a>
                 <hr>
             </div>
             <div class="my-2 my-lg-0 me-5">
