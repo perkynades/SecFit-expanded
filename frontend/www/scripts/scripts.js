@@ -24,6 +24,10 @@ function updateNavBar() {
     makeNavLinkActive("nav-myathletes");
   } else if (window.location.pathname == "/meals.html") {
     makeNavLinkActive("nav-myathletes");
+  } else if (window.location.pathname == "/automaticloggers.html") {
+    makeNavLinkActive("nav-automaticlogging");
+  } else if (window.location.pathname == "/exerciseprogramming.html") {
+    makeNavLinkActive("nav-exerciseprogramming");
   }
 
   if (isUserAuthenticated()) {
@@ -35,6 +39,8 @@ function updateNavBar() {
     document.querySelector('a[href="exercises.html"').classList.remove("hide");
     document.querySelector('a[href="myathletes.html"').classList.remove("hide");
     document.querySelector('a[href="meals.html"').classList.remove("hide");
+    document.querySelector('a[href="automaticloggers.html"').classList.remove("hide");
+    document.querySelector('a[href="exerciseprogramming.html"').classList.remove("hide");
   } else {
     document.getElementById("btn-login-nav").classList.remove("hide");
     document.getElementById("btn-register").classList.remove("hide");

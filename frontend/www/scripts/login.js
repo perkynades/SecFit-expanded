@@ -3,10 +3,6 @@ async function login() {
     let formData = new FormData(form);
     let body = {"username": formData.get("username"), "password": formData.get("password")};
 
-    // THIS IS FOR TESTING ONLY
-    //window.location.replace("workouts.html");
-    // END TESTING
-
     let response = await sendRequest("POST", `${HOST}/api/token/`, body)
     if (response.ok) {
         let data = await response.json();
