@@ -38,5 +38,5 @@ jobs:
       - run: |
           sudo apt-get install -y ruby-dev
           gem install dpl
-          dpl --provider=heroku --app=secfit-expanded-frontend --api-key=${{ secrets.HEROKU_STAGING_API_KEY }}
-          dpl --provider=heroku --app=secfit-expanded-backend --api-key=${{ secrets.HEROKU_STAGING_API_KEY }}
+          dpl --provider=heroku --app=new-secfit-frontend --api-key=${{ secrets.HEROKU_STAGING_API_KEY }}
+          dpl --provider=heroku --app=new-secfit-expanded --api-key=${{ secrets.HEROKU_STAGING_API_KEY }}
