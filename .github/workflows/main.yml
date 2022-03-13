@@ -5,23 +5,8 @@ on:
     branches: [main]
 
 jobs:
-  build:
-    name: Install python requirments
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.8'
-      - name: Update
-        run: sudo apt-get upgrade -qy
-      - name: Install python reqs
-        run: pip install -r requirements.txt
-        working-directory: ./backend/secfit
-  
   deploy:
     name: Deploy to heroku
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
