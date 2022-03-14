@@ -1,6 +1,5 @@
 from typing_extensions import Self
 from django.test import TestCase, RequestFactory, Client
-from backend.secfit.users.serializers import UserPutSerializer
 from users.serializers import UserSerializer
 from users.models import User, AthleteFile
 from rest_framework import serializers
