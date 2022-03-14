@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "comments.apps.CommentsConfig",
     "corsheaders",
+    "django_nose",
 ]
 
 MIDDLEWARE = [
@@ -92,6 +93,13 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
+
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-tests',
 ]
 
 WSGI_APPLICATION = "secfit.wsgi.application"
