@@ -99,7 +99,7 @@ TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
 
 NOSE_ARGS = [
     '--with-coverage',
-    '--cover-package=workouts,users',
+    '--cover-tests',
 ]
 
 WSGI_APPLICATION = "secfit.wsgi.application"
