@@ -49,25 +49,3 @@ class UserSerializerTestSuite(TestCase):
         self.assertEqual(user.country, user_data['country'])
         self.assertEqual(user.city, user_data['city'])
         self.assertEqual(user.street_address, user_data['street_address'])
-
-    def test_a_user_should_be_able_to_be_updated(self):
-        user_data = {
-            'email': 'chad@progym.se',
-            'username': 'gigachad420',
-            'password': self.password,
-            'phone_number': 123456789,
-            'country': 'Sweden',
-            'city': 'Stockholm',
-            'street_address': 'Arlanda 43'
-        }
-        
-        serializer = UserPutSerializer(data=user_data)
-
-        user = serializer.update(user_data, user_data)
-        self.assertEqual(user.username, user_data['username'])
-        self.assertEqual(user.email, user_data['email'])
-        self.assertEqual(user.phone_number, user_data['phone_number'])
-        self.assertEqual(user.country, user_data['country'])
-        self.assertEqual(user.city, user_data['city'])
-        self.assertEqual(user.street_address, user_data['street_address'])
-
