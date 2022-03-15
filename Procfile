@@ -1,1 +1,1 @@
-web: cd backend/secfit && python manage.py migrate && gunicorn --pythonpath 'backend/secfit' secfit.wsgi --log-file -
+web: cd backend/secfit && python manage.py makemigrations && python manage.py migrate --run-syncdb && gunicorn --pythonpath 'backend/secfit' secfit.wsgi --log-file -
