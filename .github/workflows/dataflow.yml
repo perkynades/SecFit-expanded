@@ -13,3 +13,5 @@ jobs:
       - uses: returntocorp/semgrep-action@v1
         env:
           SEMGREP_RULES: semgrep/
+      run: semgrep-agent --github-json > gl-sast-report.json || true
+      run: cat gl-sast-report.json
