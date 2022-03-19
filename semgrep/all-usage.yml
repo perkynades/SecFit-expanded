@@ -1,0 +1,19 @@
+rules:
+- id: p-use-coverage
+  patterns:
+  - pattern-either:
+    - pattern: if ($PREDICATE)
+  - pattern-inside: function retrieveWorkout(...){...}
+  message: "p-use found"
+  languages: [js]
+  severity: INFO
+- id: c-use-coverage
+  patterns:
+  - pattern-either:
+    - pattern: $X - $Y
+    - pattern: $X + $Y
+    - pattern: $X * $Y
+  - pattern-inside: function retrieveWorkout(...){...}
+  message: "c-use found"
+  languages: [js]
+  severity: INFO

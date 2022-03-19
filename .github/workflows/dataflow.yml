@@ -1,0 +1,16 @@
+name: All usage dataflow test
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  semgrep:
+    name: Run semgrep scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: returntocorp/semgrep-action@v1
+        with:
+          SEMGREP_RULES: >-
+            semgrep/
