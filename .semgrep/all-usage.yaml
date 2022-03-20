@@ -1,19 +1,19 @@
 rules:
-- id: p-use-coverage
+- id: apu-coverage
   patterns:
   - pattern-either: 
     - pattern: if ($PREDICATE)
   - pattern-inside: function retrieveWorkoutImages(...){...}
-  message: "p-use found"
+  message: "APU found"
   languages: [js]
   severity: INFO
-- id: c-use-coverage
+- id: acu-coverage
   patterns: 
   - pattern-either: 
     - pattern: $X - $Y 
     - pattern: $X + $Y
     - pattern: $X * $Y
   - pattern-inside: function retrieveWorkoutImages(...){...}
-  message: "c-use found"
+  message: "ACU found"
   languages: [js]
   severity: INFO
