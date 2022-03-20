@@ -13,6 +13,7 @@ rules:
     - pattern: $X - $Y 
     - pattern: $X + $Y
     - pattern: $X * $Y
+    - pattern: $X / $Y
   - pattern-inside: function retrieveWorkoutImages(...){...}
   message: "ACU found"
   languages: [js]
