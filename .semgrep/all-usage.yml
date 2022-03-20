@@ -2,7 +2,7 @@ rules:
 - id: apu-coverage
   patterns:
   - pattern-either: 
-    - pattern: if ($PREDICATE)
+    - pattern: if ($P)
   - pattern-inside: function retrieveWorkoutImages(...){...}
   message: "APU found"
   languages: [js]
@@ -10,8 +10,8 @@ rules:
 - id: acu-coverage
   patterns: 
   - pattern-either: 
-    - pattern: $X - $Y 
     - pattern: $X + $Y
+    - pattern: $X - $Y 
     - pattern: $X * $Y
     - pattern: $X / $Y
   - pattern-inside: function retrieveWorkoutImages(...){...}
