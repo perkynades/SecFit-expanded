@@ -10,8 +10,8 @@ async function retrieveWorkoutImages(id) {
 	} else {
 		workoutData = await response.json();
 
-		document.getElementById('workout-title').innerHTML = 'Workout name: ' + workoutData['name'];
-		document.getElementById('workout-owner').innerHTML = 'Owner: ' + workoutData['owner_username'];
+		document.getElementById('workout-title').innerHTML = `Workout name: ${workoutData.name}`;
+		document.getElementById('workout-owner').innerHTML = `Owner: ${workoutData.owner_username}`;
 
 		const hasNoImages = workoutData.files.length == 0;
 		const noImageText = document.querySelector('#no-images-text');
