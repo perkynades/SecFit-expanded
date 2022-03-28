@@ -1,3 +1,6 @@
+/**
+ * MAIN GALLERY FUNCTIONALITY 
+ */
 async function retrieveWorkoutImages(id) {  
 	const response = await sendRequest('GET', `${HOST}/api/workouts/${id}/`); //eslint-disable-line no-undef
 	if (!response.ok) {
@@ -47,17 +50,29 @@ async function retrieveWorkoutImages(id) {
 	addEventListnersForImageFileElements(currentImageFileElement, otherImageFileElements, imgOpacity);
 }
 
+/**
+ * WINDOW EVENT LISTNER 
+ */
+window.addEventListener('DOMContentLoaded', async () => {
+	const goBackButton = getFirstElement('#btn-back-workout');
+	goBackButton.addEventListener('click', handleGoBackToWorkoutClick);
 
+	const urlParams = new URLSearchParams(window.location.search);
+	const id = urlParams.get('id');
+	await retrieveWorkoutImages(id);
+});
+
+/**
+ * HELPERS 
+ */
 async function validateImgFileType(id, host_variable, acceptedFileTypes) {
 	const file = await sendRequest('GET', `${host_variable}/api/workout-files/${id}/`); //eslint-disable-line no-undef
-	const fileData = await file.json();
-	const fileType = fileData.file.split('/')[fileData.file.split('/').length - 1].split('.')[1];
     
-	return acceptedFileTypes.includes(fileType);
+	return acceptedFileTypes.includes(file.json().file.split('/')[file.json().file.split('/').length - 1].split('.')[1]);
 }
 
 async function handleDeleteImgClick (id, http_keyword, fail_alert_text, host_variable, acceptedFileTypes) {
-	if(validateImgFileType(id, host_variable, acceptedFileTypes, )){
+	if(validateImgFileType(id, host_variable, acceptedFileTypes)){
 		return;
 	}
 
@@ -77,21 +92,6 @@ function handleGoBackToWorkoutClick() {
 	window.location.replace(`workout.html?id=${id}`);
 }
 
-/**
- * WINDOW EVENT LISTNER 
- */
-window.addEventListener('DOMContentLoaded', async () => {
-	const goBackButton = getFirstElement('#btn-back-workout');
-	goBackButton.addEventListener('click', handleGoBackToWorkoutClick);
-
-	const urlParams = new URLSearchParams(window.location.search);
-	const id = urlParams.get('id');
-	await retrieveWorkoutImages(id);
-});
-
-/**
- * HELPERS 
- */
 function createDeleteImgButton(file) {
 	const deleteImgButton =  document.createElement('input');
 	deleteImgButton.type = 'button';
