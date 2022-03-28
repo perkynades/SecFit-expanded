@@ -24,28 +24,23 @@ async function retrieveWorkoutImages(id) {
 	const filesDeleteDiv = getElement('img-collection-delete');
         
 	const currentImageFileElement = getFirstElement('#current');
-	let isFirstImg = true;
 
-	let fileCounter = 0;
-
-	for (const file of workoutData.files) {
-		if(isFileImg(createFileLink(file))){
+	workoutData.forEach((file, i) => {
+		if (isFileImg(createFileLink(file))) {
 			const deleteImgButton = createDeleteImgButton(file);
 			filesDeleteDiv.appendChild(deleteImgButton);
-                
+
 			const img = document.createElement('img');
 			img.src = file.file;
                 
 			filesDiv.appendChild(img);
-			positionDeleteImgButton(deleteImgButton, fileCounter);
+			positionDeleteImgButton(deleteImgButton, i);
 
-			if(isFirstImg){
+			if (i === 0) {
 				currentImageFileElement.src = file.file;
-				isFirstImg = false;
 			}
-			fileCounter++;
 		}
-	}
+	});
 
 	const otherImageFileElements = getFirstElement('.imgs img');
 	const selectedOpacity = 0.6;
@@ -74,7 +69,6 @@ async function validateImgFileType(id, host_variable, acceptedFileTypes) {
 }
 
 async function handleDeleteImgClick (id, http_keyword, fail_alert_text, host_variable, acceptedFileTypes) {
-    
 	if(validateImgFileType(id, host_variable, acceptedFileTypes, )){
 		return;
 	}
