@@ -1,5 +1,3 @@
-let goBackButton;
-
 async function retrieveWorkoutImages(id) {  
 	const response = await sendRequest('GET', `${HOST}/api/workouts/${id}/`); //eslint-disable-line no-undef
 	if (!response.ok) {
@@ -13,7 +11,6 @@ async function retrieveWorkoutImages(id) {
 	getElement('workout-title').innerHTML = `Workout name: ${workoutData.name}`;
 	getElement('workout-owner').innerHTML = `Owner: ${workoutData.owner_username}`;
 
-
 	if(workoutData.files.length == 0){
 		const noImageText = getFirstElement('#no-images-text');
 		noImageText.classList.remove('hide');
@@ -23,7 +20,6 @@ async function retrieveWorkoutImages(id) {
 	const filesDiv = getElement('img-collection');
 	const filesDeleteDiv = getElement('img-collection-delete');
         
-	const currentImageFileElement = getFirstElement('#current');
 
 	workoutData.forEach((file, i) => {
 		if (isFileImg(createFileLink(file))) {
@@ -37,28 +33,20 @@ async function retrieveWorkoutImages(id) {
 			positionDeleteImgButton(deleteImgButton, i);
 
 			if (i === 0) {
-				currentImageFileElement.src = file.file;
+				getFirstElement('#current').src = file.file;
 			}
 		}
 	});
 
+	const currentImageFileElement = getFirstElement('#current');
 	const otherImageFileElements = getFirstElement('.imgs img');
-	const selectedOpacity = 0.6;
-	otherImageFileElements[0].style.opacity = selectedOpacity;
+	const imgOpacity = 0.6;
+	
+	otherImageFileElements[0].style.opacity = imgOpacity;
 
-	otherImageFileElements.forEach((imageFileElement) => imageFileElement.addEventListener('click', (event) => {
-		//Changes the main image
-		currentImageFileElement.src = event.target.src;
-
-		//Adds the fade animation
-		currentImageFileElement.classList.add('fade-in');
-		setTimeout(() => currentImageFileElement.classList.remove('fade-in'), 500);
-
-		//Sets the opacity of the selected image to 0.4
-		otherImageFileElements.forEach((imageFileElement) => imageFileElement.style.opacity = 1);
-		event.target.style.opacity = selectedOpacity;
-	}));   
+	addEventListnersForImageFileElements(currentImageFileElement, otherImageFileElements, imgOpacity);
 }
+
 
 async function validateImgFileType(id, host_variable, acceptedFileTypes) {
 	const file = await sendRequest('GET', `${host_variable}/api/workout-files/${id}/`); //eslint-disable-line no-undef
@@ -89,9 +77,11 @@ function handleGoBackToWorkoutClick() {
 	window.location.replace(`workout.html?id=${id}`);
 }
 
+/**
+ * WINDOW EVENT LISTNER 
+ */
 window.addEventListener('DOMContentLoaded', async () => {
-
-	goBackButton = getFirstElement('#btn-back-workout');
+	const goBackButton = getFirstElement('#btn-back-workout');
 	goBackButton.addEventListener('click', handleGoBackToWorkoutClick);
 
 	const urlParams = new URLSearchParams(window.location.search);
@@ -99,7 +89,9 @@ window.addEventListener('DOMContentLoaded', async () => {
 	await retrieveWorkoutImages(id);
 });
 
-// ---- HELPERS ----
+/**
+ * HELPERS 
+ */
 function createDeleteImgButton(file) {
 	const deleteImgButton =  document.createElement('input');
 	deleteImgButton.type = 'button';
@@ -130,6 +122,21 @@ function createFileLink(file) {
 	const pathArray = file.file.split('/');
 	a.text = pathArray[pathArray.length - 1];
 	a.className = 'me-2';
+}
+
+function addEventListnersForImageFileElements(currentImageFileElement, otherImageFileElements, imgOpacity) {
+	otherImageFileElements.forEach((imageFileElement) => imageFileElement.addEventListener('click', (event) => {
+		//Changes the main image
+		currentImageFileElement.src = event.target.src;
+
+		//Adds the fade animation
+		currentImageFileElement.classList.add('fade-in');
+		setTimeout(() => currentImageFileElement.classList.remove('fade-in'), 500);
+
+		//Sets the opacity of the selected image to 0.4
+		otherImageFileElements.forEach((imageFileElement) => imageFileElement.style.opacity = 1);
+		event.target.style.opacity = imgOpacity;
+	}));
 }
 
 function isFileImg(fileLink) {
