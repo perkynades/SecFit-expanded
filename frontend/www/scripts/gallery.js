@@ -2,10 +2,10 @@ let goBackButton;
 
 async function retrieveWorkoutImages(id) {  
 	let workoutData = null;
-	let response = await sendRequest('GET', `${HOST}/api/workouts/${id}/`); //eslint-disable-line no-undef
+	const response = await sendRequest('GET', `${HOST}/api/workouts/${id}/`); //eslint-disable-line no-undef
 	if (!response.ok) {
-		let data = await response.json();
-		let alert = createAlert('Could not retrieve workout data!', data); //eslint-disable-line no-undef
+		const data = await response.json();
+		const alert = createAlert('Could not retrieve workout data!', data); //eslint-disable-line no-undef
 		document.body.prepend(alert);
 	} else {
 		workoutData = await response.json();
@@ -13,8 +13,8 @@ async function retrieveWorkoutImages(id) {
 		document.getElementById('workout-title').innerHTML = 'Workout name: ' + workoutData['name'];
 		document.getElementById('workout-owner').innerHTML = 'Owner: ' + workoutData['owner_username'];
 
-		let hasNoImages = workoutData.files.length == 0;
-		let noImageText = document.querySelector('#no-images-text');
+		const hasNoImages = workoutData.files.length == 0;
+		const noImageText = document.querySelector('#no-images-text');
 
 		if(hasNoImages){
 			noImageText.classList.remove('hide');
@@ -24,34 +24,34 @@ async function retrieveWorkoutImages(id) {
 		noImageText.classList.add('hide');
 
         
-		let filesDiv = document.getElementById('img-collection');
-		let filesDeleteDiv = document.getElementById('img-collection-delete');
+		const filesDiv = document.getElementById('img-collection');
+		const filesDeleteDiv = document.getElementById('img-collection-delete');
         
 		const currentImageFileElement = document.querySelector('#current');
 		let isFirstImg = true;
 
 		let fileCounter = 0;
 
-		for (let file of workoutData.files) {
-			let a = document.createElement('a');
+		for (const file of workoutData.files) {
+			const a = document.createElement('a');
 			a.href = file.file;
-			let pathArray = file.file.split('/');
+			const pathArray = file.file.split('/');
 			a.text = pathArray[pathArray.length - 1];
 			a.className = 'me-2';
 
             
 
-			let isImage = ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'PNG', 'GIF', 'JPEG'].includes(a.text.split('.')[1]);
+			const isImage = ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'PNG', 'GIF', 'JPEG'].includes(a.text.split('.')[1]);
 
 			if(isImage){
-				let deleteImgButton = document.createElement('input');
+				const deleteImgButton = document.createElement('input');
 				deleteImgButton.type = 'button';
 				deleteImgButton.className = 'btn btn-close';
 				deleteImgButton.id = file.url.split('/')[file.url.split('/').length - 2];
 				deleteImgButton.addEventListener('click', () => handleDeleteImgClick(deleteImgButton.id, 'DELETE', `Could not delete workout ${deleteImgButton.id}!`, HOST, ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'PNG', 'GIF', 'JPEG'])); //eslint-disable-line no-undef
 				filesDeleteDiv.appendChild(deleteImgButton);
                 
-				let img = document.createElement('img');
+				const img = document.createElement('img');
 				img.src = file.file;
                 
 				filesDiv.appendChild(img);
@@ -88,9 +88,9 @@ async function retrieveWorkoutImages(id) {
 }
 
 async function validateImgFileType(id, host_variable, acceptedFileTypes) {
-	let file = await sendRequest('GET', `${host_variable}/api/workout-files/${id}/`); //eslint-disable-line no-undef
-	let fileData = await file.json();
-	let fileType = fileData.file.split('/')[fileData.file.split('/').length - 1].split('.')[1];
+	const file = await sendRequest('GET', `${host_variable}/api/workout-files/${id}/`); //eslint-disable-line no-undef
+	const fileData = await file.json();
+	const fileType = fileData.file.split('/')[fileData.file.split('/').length - 1].split('.')[1];
     
 	return acceptedFileTypes.includes(fileType);
 }
@@ -101,11 +101,11 @@ async function handleDeleteImgClick (id, http_keyword, fail_alert_text, host_var
 		return;
 	}
 
-	let response = await sendRequest(http_keyword, `${host_variable}/api/workout-files/${id}/`); //eslint-disable-line no-undef
+	const response = await sendRequest(http_keyword, `${host_variable}/api/workout-files/${id}/`); //eslint-disable-line no-undef
 
 	if (!response.ok) {
-		let data = await response.json();
-		let alert = createAlert(fail_alert_text, data); //eslint-disable-line no-undef
+		const data = await response.json();
+		const alert = createAlert(fail_alert_text, data); //eslint-disable-line no-undef
 		document.body.prepend(alert);
 	} else {
 		location.reload();
