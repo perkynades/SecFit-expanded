@@ -4,6 +4,9 @@ let deleteButton;
 let editButton;
 let oldFormData;
 
+/**
+ * Data class for muscle group
+ */
 class MuscleGroup { 
 	constructor(type) {
 		this.isValidType = false;
@@ -26,22 +29,33 @@ class MuscleGroup {
 	};
     
 	getMuscleGroupType = () => {
-		console.log(this.type, 'SWIOEFIWEUFH');
 		return this.type;
 	};
 }
 
+/**
+ * CANCEL CLICKED DURING EDITING
+ */
 function handleCancelButtonDuringEdit() {
 	setReadOnly(true, '#form-exercise'); //eslint-disable-line no-undef
 	document.querySelector('select').setAttribute('disabled', '');
+
+	hideButtonsAtCancelPressedDuringEdit();
+
+	const form = document.querySelector('#form-exercise');
+	replaceOldFormData(form);
+}
+
+function hideButtonsAtCancelPressedDuringEdit() {
 	okButton.className += ' hide';
 	deleteButton.className += ' hide';
 	cancelButton.className += ' hide';
 	editButton.className = editButton.className.replace(' hide', '');
 
 	cancelButton.removeEventListener('click', handleCancelButtonDuringEdit);
+}
 
-	const form = document.querySelector('#form-exercise');
+function replaceOldFormData(form) {
 	if (oldFormData.has('name')) form.name.value = oldFormData.get('name');
 	if (oldFormData.has('description')) form.description.value = oldFormData.get('description');
 	if (oldFormData.has('duration')) form.duration.value = oldFormData.get('duration');
@@ -55,9 +69,11 @@ function handleCancelButtonDuringEdit() {
 	oldFormData.delete('calories');
 	oldFormData.delete('muscleGroup');
 	oldFormData.delete('unit');
-
 }
 
+/**
+ * CREATE EXERCISE CLICKED
+ */
 function handleCancelButtonDuringCreate() {
 	window.location.replace('exercises.html');
 }
@@ -65,23 +81,26 @@ function handleCancelButtonDuringCreate() {
 async function createExercise() {
 	document.querySelector('select').removeAttribute('disabled');
 	const form = document.querySelector('#form-exercise');
-	const formData = new FormData(form);
-	const body = {'name': formData.get('name'), 
-		'description': formData.get('description'),
-		'duration': formData.get('duration'),
-		'calories': formData.get('calories'),
-		'muscleGroup': formData.get('muscleGroup'), 
-		'unit': formData.get('unit')};
 
-	const response = await sendRequest('POST', `${HOST}/api/exercises/`, body); //eslint-disable-line no-undef
+	const response = await sendRequest('POST', `${HOST}/api/exercises/`, getFormDataBody(new FormData(form))); //eslint-disable-line no-undef
 
 	if (response.ok) {
 		window.location.replace('exercises.html');
 		return;
 	}
-	const data = await response.json();
-	const alert = createAlert('Could not create new exercise!', data); //eslint-disable-line no-undef
-	document.body.prepend(alert);
+
+	document.body.prepend(createAlert('Could not create new exercise!', await response.json())); //eslint-disable-line no-undef
+}
+
+function getFormDataBody(formData) {
+	return  {
+		'name': formData.get('name'), 
+		'description': formData.get('description'),
+		'duration': formData.get('duration'),
+		'calories': formData.get('calories'),
+		'muscleGroup': formData.get('muscleGroup'), 
+		'unit': formData.get('unit')
+	};
 }
 
 function handleEditExerciseButtonClick() {
