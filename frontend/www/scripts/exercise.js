@@ -124,12 +124,13 @@ async function retrieveExercise(id) {
 	}
 	document.querySelector('select').removeAttribute('disabled');
 
+	const exerciseData = await response.json();
 	const formData = new FormData(document.querySelector('#form-exercise'));
 
 	for (const key of formData.keys()) {
 		const selector = key !== 'muscleGroup' ? `input[name="${key}"], textarea[name="${key}"]` : `select[name=${key}]`;
 		const input = document.querySelector('#form-exercise').querySelector(selector);
-		input.value = await response.json()[key];
+		input.value = exerciseData[key];
 	}
 
 	document.querySelector('select').setAttribute('disabled', '');
@@ -233,11 +234,4 @@ function replaceOldFormData(form) {
 	if (oldFormData.has('calories')) form.calories.value = oldFormData.get('calories');
 	if (oldFormData.has('muscleGroup')) form.muscleGroup.value = oldFormData.get('muscleGroup');
 	if (oldFormData.has('unit')) form.unit.value = oldFormData.get('unit');
-
-	oldFormData.delete('name');
-	oldFormData.delete('description');
-	oldFormData.delete('duration');
-	oldFormData.delete('calories');
-	oldFormData.delete('muscleGroup');
-	oldFormData.delete('unit');
 }
