@@ -4,208 +4,234 @@ let deleteButton;
 let editButton;
 let oldFormData;
 
+/**
+ * Data class for muscle group
+ */
 class MuscleGroup { 
-    constructor(type) {
-        this.isValidType = false;
-        this.validTypes = ["Legs", "Chest", "Back", "Arms", "Abdomen", "Shoulders"]
+	constructor(type) {
+		this.isValidType = false;
+		this.validTypes = ['Legs', 'Chest', 'Back', 'Arms', 'Abdomen', 'Shoulders'];
 
-        this.type = this.validTypes.includes(type) ? type : undefined;
-    };
+		this.type = this.validTypes.includes(type) ? type : undefined;
+	}
 
-    setMuscleGroupType = (newType) => {
-        this.isValidType = false;
+	setMuscleGroupType = (newType) => {
+		this.isValidType = false;
         
-        if(this.validTypes.includes(newType)){
-            this.isValidType = true;
-            this.type = newType;
-        }
-        else{
-            alert("Invalid muscle group!");
-        }
+		if(this.validTypes.includes(newType)){
+			this.isValidType = true;
+			this.type = newType;
+		}
+		else{
+			alert('Invalid muscle group!');
+		}
 
-    };
+	};
     
-    getMuscleGroupType = () => {
-        console.log(this.type, "SWIOEFIWEUFH")
-        return this.type;
-    }
+	getMuscleGroupType = () => {
+		return this.type;
+	};
 }
 
+/**
+ * CANCEL CLICKED DURING EDITING
+ */
 function handleCancelButtonDuringEdit() {
-    setReadOnly(true, "#form-exercise");
-    document.querySelector("select").setAttribute("disabled", "")
-    okButton.className += " hide";
-    deleteButton.className += " hide";
-    cancelButton.className += " hide";
-    editButton.className = editButton.className.replace(" hide", "");
+	setReadOnly(true, '#form-exercise'); //eslint-disable-line no-undef
+	document.querySelector('select').setAttribute('disabled', '');
 
-    cancelButton.removeEventListener("click", handleCancelButtonDuringEdit);
+	hideButtonsAtCancelPressedDuringEdit();
 
-    let form = document.querySelector("#form-exercise");
-    if (oldFormData.has("name")) form.name.value = oldFormData.get("name");
-    if (oldFormData.has("description")) form.description.value = oldFormData.get("description");
-    if (oldFormData.has("duration")) form.duration.value = oldFormData.get("duration");
-    if (oldFormData.has("calories")) form.calories.value = oldFormData.get("calories");
-    if (oldFormData.has("muscleGroup")) form.muscleGroup.value = oldFormData.get("muscleGroup");
-    if (oldFormData.has("unit")) form.unit.value = oldFormData.get("unit");
-    
-    oldFormData.delete("name");
-    oldFormData.delete("description");
-    oldFormData.delete("duration");
-    oldFormData.delete("calories");
-    oldFormData.delete("muscleGroup");
-    oldFormData.delete("unit");
-
+	const form = document.querySelector('#form-exercise');
+	replaceOldFormData(form);
 }
 
+function hideButtonsAtCancelPressedDuringEdit() {
+	okButton.className += ' hide';
+	deleteButton.className += ' hide';
+	cancelButton.className += ' hide';
+	editButton.className = editButton.className.replace(' hide', '');
+
+	cancelButton.removeEventListener('click', handleCancelButtonDuringEdit);
+}
+
+
+/**
+ * CREATE EXERCISE CLICKED
+ */
 function handleCancelButtonDuringCreate() {
-    window.location.replace("exercises.html");
+	window.location.replace('exercises.html');
 }
 
 async function createExercise() {
-    document.querySelector("select").removeAttribute("disabled")
-    let form = document.querySelector("#form-exercise");
-    let formData = new FormData(form);
-    let body = {"name": formData.get("name"), 
-                "description": formData.get("description"),
-                "duration": formData.get("duration"),
-                "calories": formData.get("calories"),
-                "muscleGroup": formData.get("muscleGroup"), 
-                "unit": formData.get("unit")};
+	document.querySelector('select').removeAttribute('disabled');
 
-    let response = await sendRequest("POST", `${HOST}/api/exercises/`, body);
+	const response = await sendRequest( //eslint-disable-line no-undef
+		'POST', 
+		`${HOST}/api/exercises/`, //eslint-disable-line no-undef
+		getFormDataBody(
+			new FormData(document.querySelector('#form-exercise')),
+			new FormData(document.querySelector('#form-exercise')).get('muscleGroup')
+		)
+	); 
 
-    if (response.ok) {
-        window.location.replace("exercises.html");
-    } else {
-        let data = await response.json();
-        let alert = createAlert("Could not create new exercise!", data);
-        document.body.prepend(alert);
-    }
+	if (response.ok) {
+		window.location.replace('exercises.html');
+		return;
+	}
+
+	document.body.prepend(createAlert('Could not create new exercise!', await response.json())); //eslint-disable-line no-undef
 }
 
+/**
+ * EDIT EXERCISE CLICKED
+ */
 function handleEditExerciseButtonClick() {
-    setReadOnly(false, "#form-exercise");
+	setReadOnly(false, '#form-exercise'); //eslint-disable-line no-undef
 
-    document.querySelector("select").removeAttribute("disabled")
+	document.querySelector('select').removeAttribute('disabled');
 
-    editButton.className += " hide";
-    okButton.className = okButton.className.replace(" hide", "");
-    cancelButton.className = cancelButton.className.replace(" hide", "");
-    deleteButton.className = deleteButton.className.replace(" hide", "");
+	hideButtonsAtEditClicked();
 
-    cancelButton.addEventListener("click", handleCancelButtonDuringEdit);
+	cancelButton.addEventListener('click', handleCancelButtonDuringEdit);
 
-    let form = document.querySelector("#form-exercise");
-    oldFormData = new FormData(form);
+	oldFormData = new FormData(document.querySelector('#form-exercise'));
 }
+
+function hideButtonsAtEditClicked() {
+	editButton.className += ' hide';
+	okButton.className = okButton.className.replace(' hide', '');
+	cancelButton.className = cancelButton.className.replace(' hide', '');
+	deleteButton.className = deleteButton.className.replace(' hide', '');
+}
+
 
 async function deleteExercise(id) {
-    let response = await sendRequest("DELETE", `${HOST}/api/exercises/${id}/`);
-    if (!response.ok) {
-        let data = await response.json();
-        let alert = createAlert(`Could not delete exercise ${id}`, data);
-        document.body.prepend(alert);
-    } else {
-        window.location.replace("exercises.html");
-    }
+	const response = await sendRequest('DELETE', `${HOST}/api/exercises/${id}/`); //eslint-disable-line no-undef
+	if (!response.ok) {
+		document.body.prepend(createAlert(`Could not delete exercise ${id}`, await response.json())); //eslint-disable-line no-undef
+	} else {
+		window.location.replace('exercises.html');
+	}
 }
 
 async function retrieveExercise(id) {
-    let response = await sendRequest("GET", `${HOST}/api/exercises/${id}/`);
+	const response = await sendRequest('GET', `${HOST}/api/exercises/${id}/`); //eslint-disable-line no-undef
 
-    console.log(response.ok)
+	if (!response.ok) {
+		document.body.prepend(createAlert('Could not retrieve exercise data!', await response.json())); //eslint-disable-line no-undef
+		return;
+	}
+	document.querySelector('select').removeAttribute('disabled');
 
-    if (!response.ok) {
-        let data = await response.json();
-        let alert = createAlert("Could not retrieve exercise data!", data);
-        document.body.prepend(alert);
-    } else {
-        document.querySelector("select").removeAttribute("disabled")
-        let exerciseData = await response.json();
-        let form = document.querySelector("#form-exercise");
-        let formData = new FormData(form);
+	const exerciseData = await response.json();
+	const formData = new FormData(document.querySelector('#form-exercise'));
 
-        for (let key of formData.keys()) {
-            let selector
-            key !== "muscleGroup" ? selector = `input[name="${key}"], textarea[name="${key}"]` : selector = `select[name=${key}]`
-            let input = form.querySelector(selector);
-            let newVal = exerciseData[key];
-            input.value = newVal;
-        }
-        document.querySelector("select").setAttribute("disabled", "")
-    }
+	for (const key of formData.keys()) {
+		const selector = key !== 'muscleGroup' ? `input[name="${key}"], textarea[name="${key}"]` : `select[name=${key}]`;
+		const input = document.querySelector('#form-exercise').querySelector(selector);
+		input.value = exerciseData[key];
+	}
+
+	document.querySelector('select').setAttribute('disabled', '');
 }
 
 async function updateExercise(id) {
-    let form = document.querySelector("#form-exercise");
-    let formData = new FormData(form);
+	const formData = new FormData(document.querySelector('#form-exercise'));
 
-    let muscleGroupSelector = document.querySelector("select")
-    muscleGroupSelector.removeAttribute("disabled")
+	document.querySelector('select').removeAttribute('disabled');
+	
+	const response = await sendRequest( //eslint-disable-line no-undef
+		'PUT', 
+		`${HOST}/api/exercises/${id}/`, //eslint-disable-line no-undef
+		getFormDataBody( 
+			new FormData(document.querySelector('#form-exercise')), 
+			new MuscleGroup(formData.get('muscleGroup')).getMuscleGroupType()
+		)
+	);
 
-    let selectedMuscleGroup = new MuscleGroup(formData.get("muscleGroup"));
+	if (!response.ok) {
+		document.body.prepend(createAlert(`Could not update exercise ${id}`, await response.json())); //eslint-disable-line no-undef
+		return;
+	}
 
-    let body = {"name": formData.get("name"), 
-                "description": formData.get("description"),
-                "duration": formData.get("duration"),
-                "calories": formData.get("calories"),
-                "muscleGroup": selectedMuscleGroup.getMuscleGroupType(),
-                "unit": formData.get("unit")};
-    let response = await sendRequest("PUT", `${HOST}/api/exercises/${id}/`, body);
-
-    if (!response.ok) {
-        let data = await response.json();
-        let alert = createAlert(`Could not update exercise ${id}`, data);
-        document.body.prepend(alert);
-    } else {
-        muscleGroupSelector.setAttribute("disabled", "")
-        // duplicate code from handleCancelButtonDuringEdit
-        // you should refactor this
-        setReadOnly(true, "#form-exercise");
-        okButton.className += " hide";
-        deleteButton.className += " hide";
-        cancelButton.className += " hide";
-        editButton.className = editButton.className.replace(" hide", "");
-    
-        cancelButton.removeEventListener("click", handleCancelButtonDuringEdit);
-        
-        oldFormData.delete("name");
-        oldFormData.delete("description");
-        oldFormData.delete("duration");
-        oldFormData.delete("calories");
-        oldFormData.delete("muscleGroup");
-        oldFormData.delete("unit");
-    }
+	document.querySelector('select').setAttribute('disabled', '');
+	// duplicate code from handleCancelButtonDuringEdit
+	// you should refactor this
+	setReadOnly(true, '#form-exercise'); //eslint-disable-line no-undef
+	
+	hideButtonsOnUpdate();
 }
 
-window.addEventListener("DOMContentLoaded", async () => {
-    cancelButton = document.querySelector("#btn-cancel-exercise");
-    okButton = document.querySelector("#btn-ok-exercise");
-    deleteButton = document.querySelector("#btn-delete-exercise");
-    editButton = document.querySelector("#btn-edit-exercise");
-    oldFormData = null;
+function hideButtonsOnUpdate() {
+	okButton.className += ' hide';
+	deleteButton.className += ' hide';
+	cancelButton.className += ' hide';
+	editButton.className = editButton.className.replace(' hide', '');
+    
+	cancelButton.removeEventListener('click', handleCancelButtonDuringEdit);
+}
 
-    const urlParams = new URLSearchParams(window.location.search);
+/**
+ * WINDOW EVENTLISTNER
+ */
+window.addEventListener('DOMContentLoaded', async () => {
+	setButtons();
 
-    // view/edit
-    if (urlParams.has('id')) {
-        const exerciseId = urlParams.get('id');
-        await retrieveExercise(exerciseId);
+	// view/edit
+	if (new URLSearchParams(window.location.search).has('id')) {
+		const exerciseId = new URLSearchParams(window.location.search).get('id');
+		await retrieveExercise(exerciseId);
 
-        editButton.addEventListener("click", handleEditExerciseButtonClick);
-        deleteButton.addEventListener("click", (async (id) => await deleteExercise(id)).bind(undefined, exerciseId));
-        okButton.addEventListener("click", (async (id) => await updateExercise(id)).bind(undefined, exerciseId));
-    } 
-    //create
-    else {
-        setReadOnly(false, "#form-exercise");
+		onEditOrViewSetButtonEventListners(exerciseId);
 
-        editButton.className += " hide";
-        okButton.className = okButton.className.replace(" hide", "");
-        cancelButton.className = cancelButton.className.replace(" hide", "");
+		return;
+	} 
+	//create
+	setReadOnly(false, '#form-exercise'); //eslint-disable-line no-undef
 
-        okButton.addEventListener("click", async () => await createExercise());
-        cancelButton.addEventListener("click", handleCancelButtonDuringCreate);
-    }
+	onCreateSetupButtons();
 });
+
+function setButtons() {
+	cancelButton = document.querySelector('#btn-cancel-exercise');
+	okButton = document.querySelector('#btn-ok-exercise');
+	deleteButton = document.querySelector('#btn-delete-exercise');
+	editButton = document.querySelector('#btn-edit-exercise');
+	oldFormData = null;
+}
+
+function onEditOrViewSetButtonEventListners(exerciseId) {
+	editButton.addEventListener('click', handleEditExerciseButtonClick);
+	deleteButton.addEventListener('click', (async (id) => await deleteExercise(id)).bind(undefined, exerciseId));
+	okButton.addEventListener('click', (async (id) => await updateExercise(id)).bind(undefined, exerciseId));
+}
+
+function onCreateSetupButtons() {
+	editButton.className += ' hide';
+	okButton.className = okButton.className.replace(' hide', '');
+	cancelButton.className = cancelButton.className.replace(' hide', '');
+
+	okButton.addEventListener('click', async () => await createExercise());
+	cancelButton.addEventListener('click', handleCancelButtonDuringCreate);
+}
+
+function getFormDataBody(formData, muscleGroup) {
+	return  {
+		'name': formData.get('name'), 
+		'description': formData.get('description'),
+		'duration': formData.get('duration'),
+		'calories': formData.get('calories'),
+		'muscleGroup': muscleGroup, 
+		'unit': formData.get('unit')
+	};
+}
+
+function replaceOldFormData(form) {
+	if (oldFormData.has('name')) form.name.value = oldFormData.get('name');
+	if (oldFormData.has('description')) form.description.value = oldFormData.get('description');
+	if (oldFormData.has('duration')) form.duration.value = oldFormData.get('duration');
+	if (oldFormData.has('calories')) form.calories.value = oldFormData.get('calories');
+	if (oldFormData.has('muscleGroup')) form.muscleGroup.value = oldFormData.get('muscleGroup');
+	if (oldFormData.has('unit')) form.unit.value = oldFormData.get('unit');
+}
