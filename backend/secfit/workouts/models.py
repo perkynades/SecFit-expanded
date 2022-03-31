@@ -62,10 +62,13 @@ class Workout(models.Model):
     )
 
     class Meta:
+        """
+        Meta class
+        """
         ordering = ["-date"]
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class Exercise(models.Model):
@@ -90,7 +93,7 @@ class Exercise(models.Model):
     unit = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class ExerciseInstance(models.Model):
@@ -156,4 +159,4 @@ class RememberMe(models.Model):
     remember_me = models.CharField(max_length=500)
 
     def __str__(self):
-        return self.remember_me
+        return str(self.remember_me)
