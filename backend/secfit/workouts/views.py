@@ -1,16 +1,22 @@
+# pylint: disable=locally-disabled, line-too-long
 """Contains views for the workouts application. These are mostly class-based views.
 """
+import base64
+import pickle
+from collections import namedtuple
 from rest_framework import generics, mixins
 from rest_framework import permissions
-
 from rest_framework.parsers import (
     JSONParser,
 )
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from django.db.models import Q
 from rest_framework import filters
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.db.models import Q
+from django.core.exceptions import PermissionDenied
+from django.core.signing import Signer
 from workouts.parsers import MultipartJsonParser
 from workouts.permissions import (
     IsOwner,
@@ -26,17 +32,13 @@ from workouts.models import Workout, Exercise, ExerciseInstance, WorkoutFile
 from workouts.serializers import WorkoutSerializer, ExerciseSerializer
 from workouts.serializers import RememberMeSerializer
 from workouts.serializers import ExerciseInstanceSerializer, WorkoutFileSerializer
-from django.core.exceptions import PermissionDenied
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.response import Response
-import json
-from collections import namedtuple
-import base64, pickle
-from django.core.signing import Signer
 
 
 @api_view(["GET"])
-def api_root(request, format=None):
+def api_root(request):
+    """
+    Handler for workouts get requests
+    """
     return Response(
         {
             "users": reverse("user-list", request=request, format=format),
@@ -55,26 +57,28 @@ def api_root(request, format=None):
 
 
 # Allow users to save a persistent session in their browser
-class RememberMe(
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin,
-    mixins.DestroyModelMixin,
-    generics.GenericAPIView,
-):
-
+class RememberMe(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+    """
+    Class for handling and creating session cookies
+    """
     serializer_class = RememberMeSerializer
 
     def get(self, request):
-        if request.user.is_authenticated == False:
+        """
+        Returns a session cookie
+        """
+        if not request.user.is_authenticated:
             raise PermissionDenied
-        else:
-            return Response({"remember_me": self.rememberme()})
+        return Response({"remember_me": self.rememberme()})
 
     def post(self, request):
-        cookieObject = namedtuple("Cookies", request.COOKIES.keys())(
+        """
+        Creates a new session cookie and returns it
+        """
+        cookie_object = namedtuple("Cookies", request.COOKIES.keys())(
             *request.COOKIES.values()
         )
-        user = self.get_user(cookieObject)
+        user = self.get_user(cookie_object)
         refresh = RefreshToken.for_user(user)
         return Response(
             {
@@ -101,9 +105,7 @@ class RememberMe(
         return signed_user
 
 
-class WorkoutList(
-    mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView
-):
+class WorkoutList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
     """Class defining the web response for the creation of a Workout, or displaying a list
     of Workouts
 
