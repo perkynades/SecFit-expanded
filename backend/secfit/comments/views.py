@@ -1,27 +1,34 @@
-from django.shortcuts import render
 from rest_framework import generics, mixins
-from comments.models import Comment, Like
 from rest_framework import permissions
-from comments.permissions import IsCommentVisibleToUser
-from workouts.permissions import IsOwner, IsReadOnly
-from comments.serializers import CommentSerializer, LikeSerializer
-from django.db.models import Q
 from rest_framework.filters import OrderingFilter
+from comments.models import Comment, Like
+from comments.permissions import IsCommentVisibleToUser
+from comments.serializers import CommentSerializer, LikeSerializer
+from workouts.permissions import IsOwner, IsReadOnly
+from django.db.models import Q
 
 # Create your views here.
 class CommentList(
     mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView
 ):
-    # queryset = Comment.objects.all()
+    """
+    Class for handling web requests for lists of comments
+    """
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [OrderingFilter]
     ordering_fields = ["timestamp"]
 
     def get(self, request, *args, **kwargs):
+        """
+        Returns a list of comments
+        """
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        """
+        Adds a list of comments to the database
+        """
         return self.create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
@@ -34,16 +41,16 @@ class CommentList(
         if workout_pk:
             qs = Comment.objects.filter(workout=workout_pk)
         elif self.request.user:
-            """A comment should be visible to the requesting user if any of the following hold:
-            - The comment is on a public visibility workout
-            - The comment was written by the user
-            - The comment is on a coach visibility workout and the user is the workout owner's coach
-            - The comment is on a workout owned by the user
-            """
+            # A comment should be visible to the requesting user if any of the following hold:
+            # - The comment is on a public visibility workout
+            # - The comment was written by the user
+            # - The comment is on a coach visibility workout and the user is
+            #   the workout owner's coach
+            # - The comment is on a workout owned by the user
             # The code below is kind of duplicate of the one in ./permissions.py
             # We should replace it with a better solution.
             # Or maybe not.
-            
+           
             qs = Comment.objects.filter(
                 Q(workout__visibility="PU")
                 | Q(owner=self.request.user)
@@ -63,6 +70,9 @@ class CommentDetail(
     mixins.DestroyModelMixin,
     generics.GenericAPIView,
 ):
+    """
+    Class for handling web requests for a comment
+    """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [
@@ -70,24 +80,42 @@ class CommentDetail(
     ]
 
     def get(self, request, *args, **kwargs):
+        """
+        Returns a specific comment
+        """
         return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
+        """
+        Updates a comment
+        """
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
+        """
+        Deletes a comment
+        """
         return self.destroy(request, *args, **kwargs)
 
 
 # List of likes
 class LikeList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    """
+    Class for handling web requests for a list of likes
+    """
     serializer_class = LikeSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
+        """
+        Returns a list of likes
+        """
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        """
+        Adds a list of likes to the database
+        """
         return self.create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
@@ -104,16 +132,28 @@ class LikeDetail(
     mixins.DestroyModelMixin,
     generics.GenericAPIView,
 ):
+    """
+    Class for handling web requests for a like
+    """
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     permission_classes = [permissions.IsAuthenticated]
     _Detail = []
 
     def get(self, request, *args, **kwargs):
+        """
+        Returns a like
+        """
         return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
+        """
+        Updates a like
+        """
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
+        """
+        Deletes a like
+        """
         return self.destroy(request, *args, **kwargs)
